@@ -10,7 +10,7 @@ urlcolor: blue
 graphics: yes
 ---
 
-```{r setup, include = FALSE}
+```{r setup, include = FALSE, eval=FALSE}
 knitr::opts_chunk$set(echo = TRUE, comment = NA, message = FALSE, eval = FALSE,
                       fig.width = 4.5, fig.height = 3, fig.align = "right")
 ```
@@ -31,7 +31,7 @@ load("Hellmans.rdata")
 
 ##1.1 Creating price variable for Hellman's 32oz.mayo
 ```{r}
-hellmans_df %>% mutate(price = dollars/units)
+hellmans_df$price = hellmans_df$dollars / hellmans_df$units
 ```
 
 ##1.2 Dividing feature and display columns by 100 and summarize
@@ -75,7 +75,7 @@ From the above histograms it can be inferred that there is more variation in the
 ```{r}
   f = hellmans_df$feature_pctacv
   d = hellmans_df$display_pctacv
-  p = (hellmans_df %>% mutate(price = dollars/ units) ) $ price
+  p = hellmans_df$price
   correlations <- matrix(c(1, cor(f,d), cor(f,p), cor(d,f), 1, cor(d,p)),ncol=3,byrow=TRUE)
   colnames(correlations) <- c("Feature","Display","Price")
   rownames(correlations) <- c("Feature","Display")
