@@ -88,4 +88,32 @@ Feature and display are highly correlated. There is high inverse correlation bet
 
 ## 1.5 Do correlations indicate a potential problem for your regression analysis to be performed below?
 
-Yes, they do. These highly correlated attributes will introduce bias in the estimates unless they are accounted fr=or.
+Yes, they do. These highly correlated attributes will introduce bias in the estimates unless they are accounted for.
+
+## 2.1 Log linear demand model
+
+### Using only price
+```{r}
+for (i in unique(hellmans_df$account))
+{
+    m = hellmans_df %>% filter (account == i) %>% lm(log (units) ~ log (price), .)
+    print(paste("Linear log model for : ", i, sep=""))
+    print (summary(m))
+}
+```
+
+### Adding feature and display variables in addition to price
+```{r}
+for (i in unique(hellmans_df$account))
+{
+    m = hellmans_df %>% filter (account == i) %>% lm(log (units) ~ log (price) + feature_pctacv + display_pctacv, .)
+    print(paste("Linear log model for : ", i, sep=""))
+    print (summary(m))
+}
+```
+
+## 2.2 Analysis of the models
+* Goodness of fit and the price elasticity estimates
+* Is the change in price elasticity estimates as expected?
+* What is the reason for this change? 
+* Are the coefficient estimates similar for both accounts?
