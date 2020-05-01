@@ -1,0 +1,63 @@
+---
+title: "Assignment 3: Promotions Management"
+author: "Günter J. Hitsch"
+date: "May 2, 2020"
+output:
+  pdf_document:
+    number_sections: yes
+    toc: yes
+urlcolor: blue
+graphics: yes
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = NA, message = FALSE, eval = FALSE,
+                      fig.width = 4.5, fig.height = 3, fig.align = "right")
+```
+
+\setlength{\parskip}{6pt}
+\newpage
+
+
+```{r}
+library(tidyverse)
+```
+
+\bigskip
+
+```{r}
+load("Hellmans.rdata")
+```
+
+##1.1 Creating price variable for Hellman's 32oz.mayo
+```{r}
+hellmans_df %>% mutate(price = dollars/units)
+```
+
+##1.2 Dividing feature and display columns by 100, summarize and comment
+```{r}
+hellmans_df %>% mutate (
+                           feature_acv= feature_pctacv/100, 
+                           display_acv = display_pctacv/100
+                        ) %>%
+               summarise(
+                           number_of_observations = n(),
+                           feature_mean = mean(feature_acv),
+                           feature_median = median(feature_acv),
+                           feature_sd = sd(feature_acv),
+                           display_mean= mean(display_acv),
+                           display_median = median(display_acv),
+                           display_sd = sd(display_acv)
+                        )
+```
+
+
+### Examination of feature and display variables
+
+##1.3 Correlations between feature_pctacv and display_pctacv
+
+## 1.4 Comments on findings
+
+## 1.5 Do correlcations indicate a potential problem for your regression analysis to be performed below?
+
+
