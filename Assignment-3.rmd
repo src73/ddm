@@ -34,13 +34,14 @@ load("Hellmans.rdata")
 hellmans_df %>% mutate(price = dollars/units)
 ```
 
-##1.2 Dividing feature and display columns by 100, summarize and comment
+##1.2 Dividing feature and display columns by 100 and summarize
 ```{r}
 hellmans_df %>% mutate (
                            feature_acv= feature_pctacv/100, 
                            display_acv = display_pctacv/100
                         ) %>%
-               summarise(
+                group_by(account) %>%
+                summarise(
                            number_of_observations = n(),
                            feature_mean = mean(feature_acv),
                            feature_median = median(feature_acv),
@@ -51,13 +52,40 @@ hellmans_df %>% mutate (
                         )
 ```
 
+```{r, fig.width = 5, fig.height = 4}
+library(ggplot2)
+for (i in unique(hellmans_df$account)) {
+  
+      plot_feature <- ggplot(hellmans_df %>% filter(account == i), 
+              aes(x = feature_pctacv/100)) +
+              geom_histogram(color="darkblue", fill="lightblue")
+      plot_display <- ggplot(hellmans_df %>% filter(account == i), 
+              aes(x = display_pctacv/100)) +
+              geom_histogram(color="darkblue", fill="lightblue")
+      print (plot_feature)
+      print (plot_display)
+}
+
+```
 
 ### Examination of feature and display variables
+From the above histograms it can be inferred that there is more variation in the display attribute than in the feature based promotional attribute. Hence, we can gain more insights from display based promotion and can have more granular implementation of the promotion strategy by fine tuning the display attribute.
 
 ##1.3 Correlations between feature_pctacv and display_pctacv
+```{r}
+  f = hellmans_df$feature_pctacv
+  d = hellmans_df$display_pctacv
+  p = (hellmans_df %>% mutate(price = dollars/ units) ) $ price
+  correlations <- matrix(c(1, cor(f,d), cor(f,p), cor(d,f), 1, cor(d,p)),ncol=3,byrow=TRUE)
+  colnames(correlations) <- c("Feature","Display","Price")
+  rownames(correlations) <- c("Feature","Display")
+  correlations <- as.table(correlations)
+  print (correlations)
+```
 
 ## 1.4 Comments on findings
+Feature and display are highly correlated. There is high inverse correlation between feature-display and price too. Because feature and display are highly correlated, it is difficult to ascertain whether the correlation of price is due to one or both of these influencing terms.
 
-## 1.5 Do correlcations indicate a potential problem for your regression analysis to be performed below?
+## 1.5 Do correlations indicate a potential problem for your regression analysis to be performed below?
 
-
+Yes, they do. These highly correlated attributes will introduce bias in the estimates unless they are accounted fr=or.
