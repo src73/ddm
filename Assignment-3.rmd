@@ -117,3 +117,5 @@ for (i in unique(hellmans_df$account))
 * Is the change in price elasticity estimates as expected?
 * What is the reason for this change? 
 * Are the coefficient estimates similar for both accounts?
+
+## 3.1 question 3
