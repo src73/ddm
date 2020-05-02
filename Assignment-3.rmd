@@ -18,23 +18,47 @@ knitr::opts_chunk$set(echo = TRUE, comment = NA, message = FALSE, eval = FALSE,
 \setlength{\parskip}{6pt}
 \newpage
 
+# Promotional event planning
 
+## Is there evidence for strong seasonal demand for this product, based on the figures presented in the “Event” sheet?
+
+Yes, the baseline numbers without promotions are high for event 1 and event 2 which were run during holiday season. This indicates strong seasonal demand during holiday period.
+
+# Expressed as a percentage of base sales, does event 1 or event 2 produce a greater incremental sales response?
+
+Incremental lift for event 1: 55%, incremental lift for event 2: 69%, incremental lift for event 3: 116%, incremental lift for event 4:14%, incremental lift for event 5: 180%.
+No, event 1 or 2 do not produce higher incremental response. Even though event 2 has highest incremental response amongst event 1 and event 2 it is still lower than Events  3 and 5 which have highest incremental response
+
+## Discuss the profitability results for these five events. Which events are most profitable and why? What can you learn from this analysis about what sorts of promotional events are most profitable?
+
+After including forward buy costs in ROI, event 2 and event 5 are most profitable. Event 2, 5 and 4 are focused solely on display but event 2 and 5 were implemented during holiday times and have greater TPR. Thus, success of event 2 and event 5 can be attributed to TPR and holiday time promotions.
+
+## Recalculate the profitability for event 1 and 2 assuming that retailers will engage in 4 weeks rather than 2 weeks of forward buying.
+
+The profitability goes by 10% for both events in case of increased forward buy to 2 weeks time period.
+*italics* For details please refer to the excel sheet in the submission *italics*
+
+## Optional question: Compare the approach to calculating the ROI that we took in class with the Booz Allen Hamilton approach taken here (the difference was explained above). Is one of the approaches better than the other, and why?
+
+Booz allen Hamilton’s approach is understating the ROI because the reduced margin is applied to incremental sales as well. However, without promotion the incremental sales could not have been reached and hence this margin cannot be considered a ‘cost’. The approach used in the class is more accurate.
+
+\bigskip
+
+# Estimating lift factors and promotion ROI analysis
 ```{r}
 library(tidyverse)
 ```
-
-\bigskip
 
 ```{r}
 load("Hellmans.rdata")
 ```
 
-##1.1 Creating price variable for Hellman's 32oz.mayo
+## Creating price variable for Hellman's 32oz.mayo
 ```{r}
 hellmans_df$price = hellmans_df$dollars / hellmans_df$units
 ```
 
-##1.2 Dividing feature and display columns by 100 and summarize
+## Dividing feature and display columns by 100 and summarize
 ```{r}
 hellmans_df %>% mutate (
                            feature_acv= feature_pctacv/100, 
@@ -71,7 +95,7 @@ for (i in unique(hellmans_df$account)) {
 ### Examination of feature and display variables
 From the above histograms it can be inferred that there is more variation in the display attribute than in the feature based promotional attribute. Hence, we can gain more insights from display based promotion and can have more granular implementation of the promotion strategy by fine tuning the display attribute.
 
-##1.3 Correlations between feature_pctacv and display_pctacv
+## Correlations between feature_pctacv and display_pctacv
 ```{r}
   f = hellmans_df$feature_pctacv
   d = hellmans_df$display_pctacv
@@ -83,14 +107,14 @@ From the above histograms it can be inferred that there is more variation in the
   print (correlations)
 ```
 
-## 1.4 Comments on findings
+## Comments on findings
 Feature and display are highly correlated. There is high inverse correlation between feature-display and price too. Because feature and display are highly correlated, it is difficult to ascertain whether the correlation of price is due to one or both of these influencing terms.
 
-## 1.5 Do correlations indicate a potential problem for your regression analysis to be performed below?
+## Do correlations indicate a potential problem for your regression analysis to be performed below?
 
 Yes, they do. These highly correlated attributes will introduce bias in the estimates unless they are accounted for.
 
-## 2.1 Log linear demand model
+## Log linear demand model
 
 ### Using only price
 ```{r}
@@ -112,10 +136,8 @@ for (i in unique(hellmans_df$account))
 }
 ```
 
-## 2.2 Analysis of the models
+## Analysis of the models
 * Goodness of fit and the price elasticity estimates
 * Is the change in price elasticity estimates as expected?
 * What is the reason for this change? 
 * Are the coefficient estimates similar for both accounts?
-
-## 3.1 question 3
