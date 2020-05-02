@@ -24,7 +24,7 @@ knitr::opts_chunk$set(echo = TRUE, comment = NA, message = FALSE, eval = FALSE,
 
 Yes, the baseline numbers without promotions are high for event 1 and event 2 which were run during holiday season. This indicates strong seasonal demand during holiday period.
 
-# Expressed as a percentage of base sales, does event 1 or event 2 produce a greater incremental sales response?
+## Expressed as a percentage of base sales, does event 1 or event 2 produce a greater incremental sales response?
 
 Incremental lift for event 1: 55%, incremental lift for event 2: 69%, incremental lift for event 3: 116%, incremental lift for event 4:14%, incremental lift for event 5: 180%.
 No, event 1 or 2 do not produce higher incremental response. Even though event 2 has highest incremental response amongst event 1 and event 2 it is still lower than Events  3 and 5 which have highest incremental response
@@ -36,7 +36,7 @@ After including forward buy costs in ROI, event 2 and event 5 are most profitabl
 ## Recalculate the profitability for event 1 and 2 assuming that retailers will engage in 4 weeks rather than 2 weeks of forward buying.
 
 The profitability goes by 10% for both events in case of increased forward buy to 2 weeks time period.
-*italics* For details please refer to the excel sheet in the submission *italics*
+*For details please refer to the excel sheet in the submission*
 
 ## Optional question: Compare the approach to calculating the ROI that we took in class with the Booz Allen Hamilton approach taken here (the difference was explained above). Is one of the approaches better than the other, and why?
 
