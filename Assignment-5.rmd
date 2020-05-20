@@ -82,6 +82,11 @@ Response: Physicians of Type 1 are the least exposed to detailing, those of type
 
 Estimate a linear probability model to predict the prescription choice of Cialis using the amount of current detailing. The dependent variable is $y = \mathtt{choice}$. For now do not use lags. Interpret the detailing coefficient estimate.
 
+```{r}
+detailing_df %>% lm(choice ~ det, .) %>% summary()
+```
+
+Response: The choice of prescribing Cialis at an instance is affected by exposure to detailing in the 30 day period prior to that instance, though the detailing-stock elasticity is not high.
 
 ## Long-run effect of detailing
 
@@ -89,6 +94,12 @@ Now allow for long-run effects of detailing. Re-estimate the linear probability 
 
 To interpret the results, think of current and past detailing creating a detailing stock, similar to the adstock (goodwill) model discussed in class. In the case with one lag:
 $$ {\tt detstock} = {\tt det} + \delta \cdot {\tt lag\_det} $$
+```{r}
+##Adding a single lag period
+detailing_df %>% lm(choice ~ det + lag_det, .) %>% summary()
+```
+
+Response : There is a slight improvement in the elasticity of detailing stock suggesting that the previous regression contained higher error in the coefficient because. Also, detailing has an effect on choice in more than its current time period.
 
 The detailing stock affects prescription choices:
 $$ \begin{aligned}
@@ -98,8 +109,18 @@ $$ \begin{aligned}
    \end{aligned}$$
 
 Using the estimated regression coefficients, $\beta_1$ and $\beta_2$, infer the carry-over factor $\delta$.
+```{r}
+##Rearranging the above equation
+gamma = 0.024585 ##beta_1
+delta = 0.019629 / gamma ##beta_2 = gamma * delta
+print (paste('Gamma', gamma))
+print (paste('Delta', delta))
+print (paste('Depreciation', 1 - delta))
+```
+
 
 Interpret the estimate of $\gamma$ and the estimated carry-over.
+The detailing stock elasticity (gamma) is positive, suggesting that detailing has an impact on prescription of Cialis. The Delta, too is high, indicating that detailing has prescription over more than one time period, with little depreciation in the latter period.
 
 \newpage
 
