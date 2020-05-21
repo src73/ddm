@@ -229,16 +229,14 @@ detailing_df = detailing_df %>% mutate (detstock = det + delta_logistic_regressi
 (ii) Estimate a  logistic regression with `detstock` as the independent variable.
 ```{r}
 ##The two regressions give similar results
-logistic_regression_fit_detStock = detailing_df %>% 
+fit_logistic = detailing_df %>% 
                                  glm(choice ~ detstock, family = binomial (link = "logit"),.)
-summary(logistic_regression_fit_detStock)
+summary(fit_logistic)
 ```
 
 Save the logistic regression output, which we need below to predict prescription probabilities.
 
 \newpage
-
-
 
 
 # ROI calculations
@@ -274,6 +272,21 @@ detailing_df = detailing_df %>%
 
 Here, `fit_logistic` is the logistic regression estimation result. R uses the estimated regression coefficients, $\hat{\beta}_{0},\hat{\beta}_{1},\dots,\hat{\beta}_{K}$, and then predicts the probabilities using the formula
 $$\Pr\{y=1|x_1,\dots,x_K\} =  \frac{\exp(\hat{\beta}_{0}+\hat{\beta}_{1}x_{1}+\cdots+\hat{\beta}_{K}x_{K})}{1+\exp(\hat{\beta}_{0}+\hat{\beta}_{1}x_{1}+\cdots+\hat{\beta}_{K}x_{K})}.$$
+```{r}
+detailing_df %>% summarise(
+   mean = mean(Pr_0),
+   median = median (Pr_0),
+   min = min(Pr_0),
+   max = max(Pr_0),
+   sd = sd(Pr_0)
+)
+```
+```{r}
+##histogram of probabilities
+ggplot(detailing_df, 
+         aes(x = Pr_0)) +
+         geom_histogram(color="darkblue", fill="lightblue") 
+```
 
 \bigskip
 
