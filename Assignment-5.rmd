@@ -292,12 +292,22 @@ ggplot(detailing_df,
 
 Predict the prescription probabilities at the sample values of detailing. Summarize and plot a histogram of the predicted prescription probability variable.
 
+```{r}
+##Sampling 50% of the rows
+Pr_sample = predict(fit_logistic, detailing_df[sample(nrow(detailing_df), nrow(detailing_df)/2),]
+, type = "response")
+
+```
+
 \medskip
 
 Note: `Pr_0`, as created in the first code chunk above, is a vector, not a data frame. If you use ggplot2 to plot a histogram you either need to convert `Pr_0` to a data frame or, alternatively, add `Pr_0` to an existing data frame such as `detailing_df`.
 
 ```{r}
-ggplot(as.data.frame(Pr_0), aes(x = Pr_0)) + ...
+##Plotting the sample set probabilities
+ggplot(as.data.frame(Pr_sample), 
+         aes(x = Pr_sample)) +
+         geom_histogram(color="darkblue", fill="lightblue")
 ```
 
 \medskip
@@ -305,20 +315,20 @@ ggplot(as.data.frame(Pr_0), aes(x = Pr_0)) + ...
 Now predict the prescription probability for a one unit increase in the detailing stock. First, create a copy of the original data (this allows you to preserve the original data):
 
 ```{r}
-new_detailing_df = detailing_df
+##new_detailing_df = detailing_df
 ```
 
 Then increase the detailing stock in the new data by 1 (use `mutate`) and predict the corresponding prescription probabilities:
 
 ```{r}
-Pr_1 = predict(fit_logistic, newdata = new_detailing_df, type = "response")
+##Pr_1 = predict(fit_logistic, newdata = new_detailing_df, type = "response")
 ```
 
 Or you can use the pipe, which avoids having to copy the original data.
 
 ```{r}
 Pr_1 = detailing_df %>%
-   mutate(<add 1 to detstock>) %>%
+   mutate(detstock = detstock + 1) %>%
    predict(fit_logistic, newdata = ., type = "response")
 ```
 
@@ -326,6 +336,9 @@ Pr_1 = detailing_df %>%
 
 Calculate the average increase in the predicted prescription probabilities based on the mean difference between `Pr_1` and `Pr_0`. Is the prediction similar to the estimate of the effect of detailing from the linear probability model?
 
+```{r}
+print (paste('Difference in Pr_1 and Pr_0=', mean(Pr_1) - mean (Pr_0)))
+```
 
 ## Short-run ROI
 
