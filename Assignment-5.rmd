@@ -111,11 +111,11 @@ $$ \begin{aligned}
 Using the estimated regression coefficients, $\beta_1$ and $\beta_2$, infer the carry-over factor $\delta$.
 ```{r}
 ##Rearranging the above equation
-gamma = 0.024585 ##beta_1
-delta = 0.019629 / gamma ##beta_2 = gamma * delta
-print (paste('Gamma', gamma))
-print (paste('Delta', delta))
-print (paste('Depreciation', 1 - delta))
+gamma_linear_prob_model = 0.024585 ##beta_1
+delta_linear_prob_model = 0.019629 / gamma_linear_prob_model ##beta_2 = gamma * delta
+print (paste('Gamma', gamma_linear_prob_model))
+print (paste('Delta', delta_linear_prob_model))
+print (paste('Depreciation', 1 - delta_linear_prob_model))
 ```
 
 
@@ -123,8 +123,6 @@ Interpret the estimate of $\gamma$ and the estimated carry-over.
 The detailing stock elasticity (gamma) is positive, suggesting that detailing has an impact on prescription of Cialis. The Delta, too is high, indicating that detailing has prescription over more than one time period, with little depreciation in the latter period.
 
 \newpage
-
-
 
 
 ## Optional: Estimate $\delta$ using a grid search
@@ -199,20 +197,42 @@ best_delta = aic_df[which.min(aic_df$AIC), "delta"]
 \newpage
 
 
-
-
 # Logistic regression model of prescription choice
 
 Estimate a logistic regression model that predicts the prescription choice using current and past detailing.
 
+```{r}
+logistic_regression_fit =  detailing_df   %>% 
+                           glm(choice ~ det + lag_det, family = binomial (link = "logit"),.) 
+summary(logistic_regression_fit)
+```
+
 Calculate the carry-over factor implied by the logistic regression estimates.
+```{r}
+gamma_logistic_regression = 0.10462 ##beta_1
+delta_logistic_regression = 0.08365 / gamma_logistic_regression ##beta_2 = gamma * delta
+print (paste('Gamma- logistic regression model', gamma_logistic_regression))
+print (paste('Delta- logistic regression model', delta_logistic_regression))
+print (paste('Depreciation- logistic regression model', 1 - delta_logistic_regression))
+```
 
 \medskip
 
 For conceptual clarity when performing the ROI calculations below, estimate a logistic regression model that directly includes the detailing stock as independent variable:
 
 (i) Use `mutate` to add a `detstock` variable to the `detailing_df` data frame. When calculating `detstock`, use the carry-over factor, $\delta$, that you estimated above.
+
+```{r}
+detailing_df = detailing_df %>% mutate (detstock = det + delta_logistic_regression * lag_det)
+```
+
 (ii) Estimate a  logistic regression with `detstock` as the independent variable.
+```{r}
+##The two regressions give similar results
+logistic_regression_fit_detStock = detailing_df %>% 
+                                 glm(choice ~ detstock, family = binomial (link = "logit"),.)
+summary(logistic_regression_fit_detStock)
+```
 
 Save the logistic regression output, which we need below to predict prescription probabilities.
 
