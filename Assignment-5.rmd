@@ -50,6 +50,8 @@ The variables in the data file are:
 # Data description
 
 Show a histogram of detailing to document how frequently doctors are exposed to detailing for Cialis. Then examine if there are any systematic differences in the amount of detailing to different types of physicians (remember how to summarize data separately for different groups).
+
+
 ```{r, fig.width = 5, fig.height = 4}
 
 ggplot(detailing_df %>% 
