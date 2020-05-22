@@ -206,6 +206,7 @@ Estimate a logistic regression model that predicts the prescription choice using
 logistic_regression_fit =  detailing_df   %>% 
                            glm(choice ~ det + lag_det, family = binomial (link = "logit"),.) 
 summary(logistic_regression_fit)
+
 ```
 
 Calculate the carry-over factor implied by the logistic regression estimates.
@@ -230,9 +231,9 @@ detailing_df = detailing_df %>% mutate (detstock = det + delta_logistic_regressi
 (ii) Estimate a  logistic regression with `detstock` as the independent variable.
 ```{r}
 ##The two regressions give similar results
-fit_logistic = detailing_df %>% 
+logistic_regression_model = detailing_df %>% 
                                  glm(choice ~ detstock, family = binomial (link = "logit"),.)
-summary(fit_logistic)
+summary(logistic_regression_model)
 ```
 
 Save the logistic regression output, which we need below to predict prescription probabilities.
