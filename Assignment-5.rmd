@@ -63,7 +63,7 @@ ggplot(detailing_df %>%
 ```{r}
 detailing_df %>%
       group_by(type) %>%
-      ##TODO- Do we also need to group by physician id here?
+      ##TODO- Do we also need to group by physician id here? MG: I do not think so. Type is sufficient.
       summarise(
                   mean = mean(det),
                   sd = sd(det),
