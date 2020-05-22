@@ -262,19 +262,24 @@ To calculate the change in the prescription probability for a one unit increase 
 To predict the prescription probabilities at the values of the independent variables observed in the data, use the `predict` function as follows:
 
 ```{r}
-Pr_0 = predict(fit_logistic, type = "response") 
+#Pr_0 = predict(fit_logistic, type = "response") 
 ```
 
 Alternatively, you could use `mutate` to add the predicted probabilities as a new column to `detailing_df`:
 
 ```{r}
-detailing_df = detailing_df %>%
-   mutate(Pr_0 = predict(fit_logistic, type = "response"))
+#detailing_df = detailing_df %>%
+#   mutate(Pr_0 = predict(fit_logistic, type = "response"))
 ```
 
 Here, `fit_logistic` is the logistic regression estimation result. R uses the estimated regression coefficients, $\hat{\beta}_{0},\hat{\beta}_{1},\dots,\hat{\beta}_{K}$, and then predicts the probabilities using the formula
 $$\Pr\{y=1|x_1,\dots,x_K\} =  \frac{\exp(\hat{\beta}_{0}+\hat{\beta}_{1}x_{1}+\cdots+\hat{\beta}_{K}x_{K})}{1+\exp(\hat{\beta}_{0}+\hat{\beta}_{1}x_{1}+\cdots+\hat{\beta}_{K}x_{K})}.$$
 ```{r}
+
+detailing_df = detailing_df %>%
+   mutate(Pr_0 = predict(logistic_regression_model, type = "response"))
+
+
 detailing_df %>% summarise(
    mean = mean(Pr_0),
    median = median (Pr_0),
