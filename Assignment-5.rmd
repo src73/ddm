@@ -99,7 +99,7 @@ $$ {\tt detstock} = {\tt det} + \delta \cdot {\tt lag\_det} $$
 detailing_df %>% lm(choice ~ det + lag_det, .) %>% summary()
 ```
 
-Response : There is a slight improvement in the elasticity of detailing stock suggesting that the previous regression contained higher error in the coefficient because. Also, detailing has an effect on choice in more than its current time period.
+Response : There is a slight improvement in the elasticity of detailing stock suggesting that the previous regression contained higher error in the coefficient because. Also, the results show that detailing has a lasting effect on prescription choice.
 
 The detailing stock affects prescription choices:
 $$ \begin{aligned}
@@ -120,7 +120,8 @@ print (paste('Depreciation', 1 - delta_linear_prob_model))
 
 
 Interpret the estimate of $\gamma$ and the estimated carry-over.
-The detailing stock elasticity (gamma) is positive, suggesting that detailing has an impact on prescription of Cialis. The Delta, too is high, indicating that detailing has prescription over more than one time period, with little depreciation in the latter period.
+
+The detailing stock elasticity (gamma) is positive, suggesting that detailing has an impact on prescription of Cialis. The Delta, too is high, indicating that detailing has an effect on prescription choice over more than one time period, with little depreciation in the latter period.
 
 \newpage
 
